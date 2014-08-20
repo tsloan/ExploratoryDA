@@ -61,16 +61,43 @@ if (("summarySCC_PM25.rds" %in% dirlist)
     ########################################################################
     ## Create a data frame with the total PM2.5 emission from all sources 
     ## for each of the years 1999, 2002, 2005, and 2008.
-  
-    > by(df$Sepal.Width,df$Species,sum)
-    df$Species: setosa
-    [1] 171.4
-    --------------------------------------------------------------- 
-        df$Species: versicolor
-    [1] 138.5
-    --------------------------------------------------------------- 
-        df$Species: virginica
-    [1] 148.7
+    ########################################################################
+    
+    print("Calculating yearly PM2.5 totals")
+    PM25TotalPerYear <-data.frame(year=c(1999, 2002, 2005, 2008), 
+                                  total=c(NA,NA,NA,NA))
+    
+    for (y in PM25TotalPerYear$year){
+        PM25TotalPerYear[PM25TotalPerYear$year == y,]$total = 
+            sum(NEI[NEI$year == y,]$Emissions)
+    }
+    
+    with(PM25TotalPerYear,
+         plot(year, total,
+              main ="Total PM2.5 Emissions Per Year",
+              ylab=" Number of tons of PM2.5",
+              xlab = "Year",
+              type="h")
+    )
+         
+    
+    with(PM25TotalPerYear,
+         barplot(total,
+            main ="Total PM2.5 Emissions Per Year",
+            ylab=" Number of tons of PM2.5",
+            xlab = "Year",
+            names.arg=year
+            )
+    )
+#    > by(df$Sepal.Width,df$Species,sum)
+#    df$Species: setosa
+#    [1] 171.4
+#    --------------------------------------------------------------- 
+#        df$Species: versicolor
+#    [1] 138.5
+#    --------------------------------------------------------------- 
+#        df$Species: virginica
+#    [1] 148.7
     
     
 } 
