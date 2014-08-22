@@ -1,11 +1,13 @@
 #############################################################################
 ## 
-## Plot 1.R: 
+## Coursera Exploratory Data Analysis: Project 2
 ##
-## 1. Have total emissions from PM2.5 decreased in the United States from 
-##    1999 to 2008? Using the base plotting system, make a plot showing 
-##    the total PM2.5 emission from all sources for each of the years
-##    1999, 2002, 2005, and 2008.
+## plot 1.R: This script answers the first question in the project, that is
+##    1. Have total emissions from PM2.5 decreased in the United States from 
+##       1999 to 2008? Using the base plotting system, make a plot showing 
+##       the total PM2.5 emission from all sources for each of the years
+##       1999, 2002, 2005, and 2008.
+##    The plot is output into a file plot1.png
 ##
 #############################################################################
 
@@ -37,7 +39,7 @@ if (!file.exists(DataDir)){
     setwd(DataDir)
     unzip("Dataset.zip")
     setwd("..")
-} 
+} # end of data download
 
 ##############################################################################
 ## Check that summarySCC_PM25.rds and Source_Classification_Code.rds
@@ -71,36 +73,27 @@ if (("summarySCC_PM25.rds" %in% dirlist)
         PM25TotalPerYear[PM25TotalPerYear$year == y,]$total = 
             sum(NEI[NEI$year == y,]$Emissions)
     }
+ 
+    ########################################################################
+    ## Create a bar plot  
+    ########################################################################
     
-    with(PM25TotalPerYear,
-         plot(year, total,
-              main ="Total PM2.5 Emissions Per Year",
-              ylab=" Number of tons of PM2.5",
-              xlab = "Year",
-              type="h")
-    )
-         
-    
+    png(file="plot1.png",width = 480, height = 480, units = "px")    
     with(PM25TotalPerYear,
          barplot(total,
-            main ="Total PM2.5 Emissions Per Year",
+            main =
+                "Total yearly PM2.5 emissions  
+                 from all sources in the U.S.A.",
             ylab=" Number of tons of PM2.5",
             xlab = "Year",
             names.arg=year
             )
     )
-#    > by(df$Sepal.Width,df$Species,sum)
-#    df$Species: setosa
-#    [1] 171.4
-#    --------------------------------------------------------------- 
-#        df$Species: versicolor
-#    [1] 138.5
-#    --------------------------------------------------------------- 
-#        df$Species: virginica
-#    [1] 148.7
+    dev.off()
     
-    
-} 
+} # end of file plotting
 
-
+##############################################################################
+## End of plot1.R
+##############################################################################
 
