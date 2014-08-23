@@ -10,9 +10,11 @@
 ##              from 1999 to 2008? Use the ggplot2 plotting system to make a 
 ##              plot answer this question.
 ##
-##    The plot is output into a file plot3.png
+##    The plot is output into a file called plot3.png
 ##
 #############################################################################
+
+library(ggplot2)
 
 #############################################################################
 ## Download the data 
@@ -64,40 +66,48 @@ if (("summarySCC_PM25.rds" %in% dirlist)
   SCC <- readRDS(paste(DataDir,"Source_Classification_Code.rds",sep="/"))
   
   ########################################################################
-  ## Create a data frame with the yearly total PM2.5 emission from 
-  ## for each source ie. point, nonpoint, onroad, nonroad
+  ## Create a data frame with the yearly total PM2.5 emissions 
+  ## for each source type ie. point, nonpoint, onroad, nonroad
   ## for Baltimore, Maryland (fips == "24510") between 1999 and 2008.
   ########################################################################
   
-  print("Calculating yearly PM2.5 totals for Baltimore")
-  PM25YearTotal <- 
-    data.frame(year=c(1999,2002,2005,2008), 
-               source=c("POINT", "NONPOINT", "ONROAD", "NONROAD"),
-               total=NA)
+  Baltimore <- with ( NEI, (fips == "24510") )
   
-  for (y in PM25YearTotal$year){
-    ## Get the baltimore emissions
-    Baltimore <- with (NEI, (fips == "24510" & year == y))  
-    PM25YearTotal[PM25YearTotal$year == y,]$total =
-      sum(NEI[Baltimore,]$Emissions)
-  }
+#  print("Calculating yearly PM2.5 totals for Baltimore")
+#  PM25YearTotal <- 
+#    data.frame( year=c(1999,2002,2005,2008), 
+#                stype=c("POINT", "NONPOINT", "ONROAD", "NONROAD"),
+#                total=NA,stringsAsFactors=FALSE)
+  
+#  for (y in PM25YearTotal$year){
+#    for (st in PM25YearTotal$stype){
+        ## Get entries for the Baltimore emissions for each source type in
+        ## a particular year
+#        Baltimore <- with ( NEI, (fips == "24510" & year == y & type == st) )
+        ## set the mask for the PM25YearTotal$year and
+        ## PM25YearTotal$stype combination
+#        year.stype <- with(PM25YearTotal, (year == y & stype == st) )
+        ## sum the emission for each source type and year in Baltimore
+#        PM25YearTotal[year.stype,]$total = sum(NEI[Baltimore,]$Emissions)
+#    } # end of source for
+#  } # end of year for
   
   ########################################################################
   ## Create a bar plot  
   ########################################################################
   
-  png(file="plot2.png",width = 480, height = 480, units = "px")    
-  with(PM25YearTotal,
-       barplot(total,
-               main =
-                 "Total yearly PM2.5 emissions  
-                  from all sources in Baltimore, Maryland, U.S.A.",
-               ylab="Number of tons of PM2.5",
-               xlab = "Year",
-               names.arg=year
-       ) # end barplot
-  ) # end with
-  dev.off()
+#  png(file="plot3.png",width = 480, height = 480, units = "px")    
+#  with(PM25YearTotal,
+#       barplot(total,
+#               main =
+#                 "Total yearly PM2.5 emissions  
+#                  from all sources in Baltimore, Maryland, U.S.A.",
+#               ylab="Number of tons of PM2.5",
+#               xlab = "Year",
+#               names.arg=year
+#       ) # end barplot
+#  ) # end with
+#  dev.off()
   
 } # end of file plotting
 
